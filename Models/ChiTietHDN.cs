@@ -14,6 +14,7 @@ namespace QuanLyMyPham.Models
     
     public partial class ChiTietHDN
     {
+        public int ID { get; set; }
         public int MaHD { get; set; }
         public int MaSP { get; set; }
         public Nullable<int> GiaNhap { get; set; }

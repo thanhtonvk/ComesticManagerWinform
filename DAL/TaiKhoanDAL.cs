@@ -5,18 +5,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using QuanLyMyPham.DAL.InterfaceService;
+
 namespace QuanLyMyPham.DAL
 {
     internal class TaiKhoanDAL : ITaiKhoanDAL
     {
         private DBContext db = new DBContext();
+
         public int Add(TaiKhoan taiKhoan)
         {
             db.TaiKhoans.Add(taiKhoan);
             return db.SaveChanges();
         }
 
-        public string DangNhap(string TenDangNhap,string MatKhau)
+        public string DangNhap(string TenDangNhap, string MatKhau)
         {
             var tk = db.TaiKhoans.FirstOrDefault(x => x.TenDangNhap == TenDangNhap && x.MatKhau == MatKhau);
             if (tk == null)
@@ -46,7 +48,15 @@ namespace QuanLyMyPham.DAL
 
         public int Update(TaiKhoan taiKhoan)
         {
-           
+            var model = db.TaiKhoans.Find(taiKhoan.TenDangNhap);
+            if (model != null)
+            {
+                model.MatKhau = taiKhoan.MatKhau;
+                model.LoaiTK = taiKhoan.LoaiTK;
+                return db.SaveChanges();
+            }
+
+            return 0;
         }
     }
 }

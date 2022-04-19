@@ -7,22 +7,20 @@
       <Schema Namespace="qlmyphamModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ChiTietHDB">
           <Key>
-            <PropertyRef Name="MaHD" />
-            <PropertyRef Name="MaSP" />
+            <PropertyRef Name="ID" />
           </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="MaHD" Type="int" Nullable="false" />
           <Property Name="MaSP" Type="int" Nullable="false" />
           <Property Name="GiaBan" Type="int" />
           <Property Name="SoLuong" Type="int" />
           <Property Name="ThanhTien" Type="int" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'qlmypham.dbo.ChiTietHDN' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ChiTietHDN">
           <Key>
-            <PropertyRef Name="MaHD" />
-            <PropertyRef Name="MaSP" />
+            <PropertyRef Name="ID" />
           </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="MaHD" Type="int" Nullable="false" />
           <Property Name="MaSP" Type="int" Nullable="false" />
           <Property Name="GiaNhap" Type="int" />
@@ -42,7 +40,7 @@ warning 6002: The table/view 'qlmypham.dbo.ChiTietHDN' does not have a primary k
           <Key>
             <PropertyRef Name="MaHD" />
           </Key>
-          <Property Name="MaHD" Type="int" Nullable="false" />
+          <Property Name="MaHD" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="NgayBan" Type="date" />
           <Property Name="TenKhach" Type="nvarchar" MaxLength="50" />
           <Property Name="SDT" Type="char" MaxLength="10" />
@@ -54,7 +52,7 @@ warning 6002: The table/view 'qlmypham.dbo.ChiTietHDN' does not have a primary k
           <Key>
             <PropertyRef Name="MaHD" />
           </Key>
-          <Property Name="MaHD" Type="int" Nullable="false" />
+          <Property Name="MaHD" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="NgayNhap" Type="date" />
           <Property Name="MaDL" Type="int" />
           <Property Name="TongTien" Type="int" />
@@ -95,8 +93,17 @@ warning 6002: The table/view 'qlmypham.dbo.ChiTietHDN' does not have a primary k
           <Property Name="MatKhau" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="LoaiTK" Type="nvarchar" MaxLength="10" />
         </EntityType>
+        <Function Name="getChiTietHoaDonBan" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="MaHD" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetChiTietHoaDonNhap" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="MaHD" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetHoaDonBan" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetHoaDonNhap" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="qlmyphamModelStoreContainer">
           <EntitySet Name="ChiTietHDB" EntityType="Self.ChiTietHDB" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ChiTietHDN" EntityType="Self.ChiTietHDN" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DaiLy" EntityType="Self.DaiLy" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HoaDonBan" EntityType="Self.HoaDonBan" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HoaDonNhap" EntityType="Self.HoaDonNhap" Schema="dbo" store:Type="Tables" />
@@ -104,15 +111,6 @@ warning 6002: The table/view 'qlmypham.dbo.ChiTietHDN' does not have a primary k
           <EntitySet Name="NhanVien" EntityType="Self.NhanVien" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SanPham" EntityType="Self.SanPham" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TaiKhoan" EntityType="Self.TaiKhoan" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ChiTietHDN" EntityType="Self.ChiTietHDN" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [ChiTietHDN].[MaHD] AS [MaHD], 
-    [ChiTietHDN].[MaSP] AS [MaSP], 
-    [ChiTietHDN].[GiaNhap] AS [GiaNhap], 
-    [ChiTietHDN].[SoLuong] AS [SoLuong], 
-    [ChiTietHDN].[ThanhTien] AS [ThanhTien]
-    FROM [dbo].[ChiTietHDN] AS [ChiTietHDN]</DefiningQuery>
-          </EntitySet>
         </EntityContainer>
       </Schema>
     </edmx:StorageModels>
@@ -121,12 +119,23 @@ warning 6002: The table/view 'qlmypham.dbo.ChiTietHDN' does not have a primary k
       <Schema Namespace="qlmyphamModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="ChiTietHDB">
           <Key>
-            <PropertyRef Name="MaHD" />
-            <PropertyRef Name="MaSP" />
+            <PropertyRef Name="ID" />
           </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="MaHD" Type="Int32" Nullable="false" />
           <Property Name="MaSP" Type="Int32" Nullable="false" />
           <Property Name="GiaBan" Type="Int32" />
+          <Property Name="SoLuong" Type="Int32" />
+          <Property Name="ThanhTien" Type="Int32" />
+        </EntityType>
+        <EntityType Name="ChiTietHDN">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MaHD" Type="Int32" Nullable="false" />
+          <Property Name="MaSP" Type="Int32" Nullable="false" />
+          <Property Name="GiaNhap" Type="Int32" />
           <Property Name="SoLuong" Type="Int32" />
           <Property Name="ThanhTien" Type="Int32" />
         </EntityType>
@@ -143,7 +152,7 @@ warning 6002: The table/view 'qlmypham.dbo.ChiTietHDN' does not have a primary k
           <Key>
             <PropertyRef Name="MaHD" />
           </Key>
-          <Property Name="MaHD" Type="Int32" Nullable="false" />
+          <Property Name="MaHD" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="NgayBan" Type="DateTime" Precision="0" />
           <Property Name="TenKhach" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="SDT" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
@@ -155,7 +164,7 @@ warning 6002: The table/view 'qlmypham.dbo.ChiTietHDN' does not have a primary k
           <Key>
             <PropertyRef Name="MaHD" />
           </Key>
-          <Property Name="MaHD" Type="Int32" Nullable="false" />
+          <Property Name="MaHD" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="NgayNhap" Type="DateTime" Precision="0" />
           <Property Name="MaDL" Type="Int32" />
           <Property Name="TongTien" Type="Int32" />
@@ -196,19 +205,9 @@ warning 6002: The table/view 'qlmypham.dbo.ChiTietHDN' does not have a primary k
           <Property Name="MatKhau" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="LoaiTK" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="ChiTietHDN">
-          <Key>
-            <PropertyRef Name="MaHD" />
-            <PropertyRef Name="MaSP" />
-          </Key>
-          <Property Name="MaHD" Type="Int32" Nullable="false" />
-          <Property Name="MaSP" Type="Int32" Nullable="false" />
-          <Property Name="GiaNhap" Type="Int32" />
-          <Property Name="SoLuong" Type="Int32" />
-          <Property Name="ThanhTien" Type="Int32" />
-        </EntityType>
         <EntityContainer Name="DBContext" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="ChiTietHDBs" EntityType="Self.ChiTietHDB" />
+          <EntitySet Name="ChiTietHDNs" EntityType="Self.ChiTietHDN" />
           <EntitySet Name="DaiLies" EntityType="Self.DaiLy" />
           <EntitySet Name="HoaDonBans" EntityType="Self.HoaDonBan" />
           <EntitySet Name="HoaDonNhaps" EntityType="Self.HoaDonNhap" />
@@ -216,8 +215,44 @@ warning 6002: The table/view 'qlmypham.dbo.ChiTietHDN' does not have a primary k
           <EntitySet Name="NhanViens" EntityType="Self.NhanVien" />
           <EntitySet Name="SanPhams" EntityType="Self.SanPham" />
           <EntitySet Name="TaiKhoans" EntityType="Self.TaiKhoan" />
-          <EntitySet Name="ChiTietHDNs" EntityType="Self.ChiTietHDN" />
+          <FunctionImport Name="getChiTietHoaDonBan" ReturnType="Collection(qlmyphamModel.getChiTietHoaDonBan_Result)">
+            <Parameter Name="MaHD" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetChiTietHoaDonNhap" ReturnType="Collection(qlmyphamModel.GetChiTietHoaDonNhap_Result)">
+            <Parameter Name="MaHD" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetHoaDonBan" ReturnType="Collection(qlmyphamModel.GetHoaDonBan_Result)" />
+          <FunctionImport Name="GetHoaDonNhap" ReturnType="Collection(qlmyphamModel.GetHoaDonNhap_Result)" />
         </EntityContainer>
+        <ComplexType Name="getChiTietHoaDonBan_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="TenSP" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="SoLuong" Nullable="true" />
+          <Property Type="Int32" Name="GiaBan" Nullable="true" />
+          <Property Type="Int32" Name="Thành_tiền" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="GetChiTietHoaDonNhap_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="MaSP" Nullable="false" />
+          <Property Type="Int32" Name="SoLuong" Nullable="true" />
+          <Property Type="Int32" Name="GiaNhap" Nullable="true" />
+          <Property Type="Int32" Name="Thành_tiền" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="GetHoaDonBan_Result">
+          <Property Type="Int32" Name="MaHD" Nullable="false" />
+          <Property Type="DateTime" Name="NgayBan" Nullable="true" />
+          <Property Type="String" Name="TenKhach" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="SDT" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="DiaChi" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="TenNV" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Tổng_tiền" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="GetHoaDonNhap_Result">
+          <Property Type="Int32" Name="MaHD" Nullable="false" />
+          <Property Type="DateTime" Name="NgayNhap" Nullable="true" />
+          <Property Type="String" Name="TenDL" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Tổng_tiền" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -227,9 +262,22 @@ warning 6002: The table/view 'qlmypham.dbo.ChiTietHDN' does not have a primary k
           <EntitySetMapping Name="ChiTietHDBs">
             <EntityTypeMapping TypeName="qlmyphamModel.ChiTietHDB">
               <MappingFragment StoreEntitySet="ChiTietHDB">
+                <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="MaHD" ColumnName="MaHD" />
                 <ScalarProperty Name="MaSP" ColumnName="MaSP" />
                 <ScalarProperty Name="GiaBan" ColumnName="GiaBan" />
+                <ScalarProperty Name="SoLuong" ColumnName="SoLuong" />
+                <ScalarProperty Name="ThanhTien" ColumnName="ThanhTien" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ChiTietHDNs">
+            <EntityTypeMapping TypeName="qlmyphamModel.ChiTietHDN">
+              <MappingFragment StoreEntitySet="ChiTietHDN">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="MaHD" ColumnName="MaHD" />
+                <ScalarProperty Name="MaSP" ColumnName="MaSP" />
+                <ScalarProperty Name="GiaNhap" ColumnName="GiaNhap" />
                 <ScalarProperty Name="SoLuong" ColumnName="SoLuong" />
                 <ScalarProperty Name="ThanhTien" ColumnName="ThanhTien" />
               </MappingFragment>
@@ -308,17 +356,51 @@ warning 6002: The table/view 'qlmypham.dbo.ChiTietHDN' does not have a primary k
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ChiTietHDNs">
-            <EntityTypeMapping TypeName="qlmyphamModel.ChiTietHDN">
-              <MappingFragment StoreEntitySet="ChiTietHDN">
-                <ScalarProperty Name="MaHD" ColumnName="MaHD" />
-                <ScalarProperty Name="MaSP" ColumnName="MaSP" />
-                <ScalarProperty Name="GiaNhap" ColumnName="GiaNhap" />
+          <FunctionImportMapping FunctionImportName="getChiTietHoaDonBan" FunctionName="qlmyphamModel.Store.getChiTietHoaDonBan">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="qlmyphamModel.getChiTietHoaDonBan_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="TenSP" ColumnName="TenSP" />
                 <ScalarProperty Name="SoLuong" ColumnName="SoLuong" />
-                <ScalarProperty Name="ThanhTien" ColumnName="ThanhTien" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
+                <ScalarProperty Name="GiaBan" ColumnName="GiaBan" />
+                <ScalarProperty Name="Thành_tiền" ColumnName="Thành tiền" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetChiTietHoaDonNhap" FunctionName="qlmyphamModel.Store.GetChiTietHoaDonNhap">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="qlmyphamModel.GetChiTietHoaDonNhap_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="MaSP" ColumnName="MaSP" />
+                <ScalarProperty Name="SoLuong" ColumnName="SoLuong" />
+                <ScalarProperty Name="GiaNhap" ColumnName="GiaNhap" />
+                <ScalarProperty Name="Thành_tiền" ColumnName="Thành tiền" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetHoaDonBan" FunctionName="qlmyphamModel.Store.GetHoaDonBan">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="qlmyphamModel.GetHoaDonBan_Result">
+                <ScalarProperty Name="MaHD" ColumnName="MaHD" />
+                <ScalarProperty Name="NgayBan" ColumnName="NgayBan" />
+                <ScalarProperty Name="TenKhach" ColumnName="TenKhach" />
+                <ScalarProperty Name="SDT" ColumnName="SDT" />
+                <ScalarProperty Name="DiaChi" ColumnName="DiaChi" />
+                <ScalarProperty Name="TenNV" ColumnName="TenNV" />
+                <ScalarProperty Name="Tổng_tiền" ColumnName="Tổng tiền" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetHoaDonNhap" FunctionName="qlmyphamModel.Store.GetHoaDonNhap">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="qlmyphamModel.GetHoaDonNhap_Result">
+                <ScalarProperty Name="MaHD" ColumnName="MaHD" />
+                <ScalarProperty Name="NgayNhap" ColumnName="NgayNhap" />
+                <ScalarProperty Name="TenDL" ColumnName="TenDL" />
+                <ScalarProperty Name="Tổng_tiền" ColumnName="Tổng tiền" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

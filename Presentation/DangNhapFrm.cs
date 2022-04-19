@@ -1,4 +1,7 @@
-﻿using System;
+﻿using QuanLyMyPham.BLL;
+using QuanLyMyPham.BLL.InterfaceService;
+using QuanLyMyPham.Presentation;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,6 +18,35 @@ namespace QuanLyMyPham
         public DangNhapFrm()
         {
             InitializeComponent();
+        }
+        ITaiKhoanBLL bll = new TaiKhoanBLL();
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string rs = bll.DangNhap(tb_tendangnhap.Text,tb_matkhau.Text);
+            if (rs == "")
+            {
+                MessageBox.Show("Tài khoản hoặc mật khẩu không chính xác");
+            }
+            else
+            {
+                if (rs.Equals("admin"))
+                {
+                    //mở trang admin
+                    this.Hide();
+                    AdminFrm frm = new AdminFrm();
+                    frm.ShowDialog();
+                    this.Show();
+
+                }
+                else
+                {
+                    this.Hide();
+                    NhanVienFrm frm = new NhanVienFrm();
+                    frm.ShowDialog();
+                    this.Show();
+                    //mở trang nhân viên
+                }
+            }
         }
     }
 }
