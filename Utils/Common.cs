@@ -10,5 +10,6 @@ namespace QuanLyMyPham.Utils
     {
         public static int MaHDN;
         public static int MaHDB;
+        public static string CONNECTION_STRING = @"data source=DESKTOP-9DCUPJF\SQLEXPRESS;initial catalog=qlmypham;integrated security=True;MultipleActiveResultSets=True";
     }
 }

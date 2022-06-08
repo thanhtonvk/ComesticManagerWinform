@@ -2,50 +2,80 @@
 using QuanLyMyPham.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CuaHangDienThoaiAPI.Utils;
 
 namespace QuanLyMyPham.DAL
 {
     internal class HoaDonBanDAL : IHoaDonBanDAL
     {
-        DBContext db = new DBContext();
         public int Add(HoaDonBan hoaDonBan)
         {
-            db.HoaDonBans.Add(hoaDonBan);
-            return db.SaveChanges();
+            string query =
+                $"insert into HoaDonBan(NgayBan,TenKhach,SDT,DiaChi,MaNV) values('{hoaDonBan.NgayBan}',N'{hoaDonBan.TenKhach}','{hoaDonBan.SDT}',N'{hoaDonBan.DiaChi}',{hoaDonBan.MaNV})";
+
+            return DBHelper.NonQuery(query, null);
         }
 
         public int Delete(int id)
         {
-            db.HoaDonBans.Remove(GetHoaDonBan(id));
-            return db.SaveChanges();
+            string query = $"delete from HoaDonBan where MaHD = {id}";
+            return DBHelper.NonQuery(query, null);
         }
 
         public List<GetHoaDonBan_Result> GetAll()
         {
-           return db.GetHoaDonBan().ToList();
+            string query = "GetHoaDonBan";
+            List<GetHoaDonBan_Result> hoaDonBanResults = new List<GetHoaDonBan_Result>();
+            DataTable table = DBHelper.Query(query, null);
+            foreach (DataRow row in table.Rows)
+            {
+                GetHoaDonBan_Result hoaDonBanResult = new GetHoaDonBan_Result()
+                {
+                    DiaChi = row["DiaChi"] as string,
+                    MaHD = row["MaHD"] as int? ?? 0,
+                    NgayBan = row["NgayBan"] as DateTime?,
+                    SDT = row["SDT"] as string,
+                    TenKhach = row["TenKhach"] as string,
+                    TenNV = row["TenNV"] as string,
+                    Tổng_tiền = row["Tổng tiền"] as int?
+                };
+                hoaDonBanResults.Add(hoaDonBanResult);
+            }
+
+            return hoaDonBanResults;
         }
 
         public HoaDonBan GetHoaDonBan(int id)
         {
-            return db.HoaDonBans.Find(id);
+            HoaDonBan hoaDonBan = null;
+            string query = $"select * from HoaDonBan where MaHD = {id}";
+            DataTable table = DBHelper.Query(query, null);
+            foreach (DataRow row in table.Rows)
+            {
+                hoaDonBan = new HoaDonBan()
+                {
+                    DiaChi = row["DiaChi"] as string,
+                    MaHD = row["MaHD"] as int? ?? 0,
+                    MaNV = row["MaNV"] as int? ?? 0,
+                    NgayBan = row["NgayBan"] as DateTime?,
+                    SDT = row["SDT"] as string,
+                    TenKhach = row["TenKhach"] as string,
+                    TongTien = row["Tongtien"] as int? ?? 0
+                };
+            }
+
+            return hoaDonBan;
         }
 
         public int Update(HoaDonBan hoaDonBan)
         {
-            var model = db.HoaDonBans.Find(hoaDonBan.MaHD);
-            if (model != null)
-            {
-                model.NgayBan = hoaDonBan.NgayBan;
-                model.TenKhach = hoaDonBan.TenKhach;
-                model.DiaChi = hoaDonBan.DiaChi;
-                model.SDT = hoaDonBan.SDT;
-                return db.SaveChanges();
-            }
-            return 0;
-
+            string query =
+                $"update HoaDonBan set DiaChi = N'{hoaDonBan.DiaChi}',MaNV = {hoaDonBan.MaNV}, NgayBan = '{hoaDonBan.NgayBan}',SDT = '{hoaDonBan.SDT}',TenKhach = N'{hoaDonBan.TenKhach}'";
+            return DBHelper.NonQuery(query, null);
         }
     }
 }

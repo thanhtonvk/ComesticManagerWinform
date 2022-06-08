@@ -2,35 +2,72 @@
 using QuanLyMyPham.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CuaHangDienThoaiAPI.Utils;
 
 namespace QuanLyMyPham.DAL
 {
     internal class ChiTietHDBDAL : IChiTietHDBDAL
     {
         DBContext db = new DBContext();
+
         public int Add(ChiTietHDB chiTietHDB)
         {
-           db.ChiTietHDBs.Add(chiTietHDB);
-            return db.SaveChanges();
+            string querry =
+                $"insert into ChiTietHDB(MaHD,MaSP,GiaBan,SoLuong) values({chiTietHDB.MaHD},{chiTietHDB.MaSP},{chiTietHDB.GiaBan},{chiTietHDB.SoLuong})";
+            return DBHelper.NonQuery(querry, null);
         }
 
         public int Delete(int id)
         {
-            db.ChiTietHDBs.Remove(GetChiTietHDB(id));
-            return db.SaveChanges();
+            string query = $"delete from ChiTietHDB where id = {id}";
+            return DBHelper.NonQuery(query, null);
         }
 
         public List<getChiTietHoaDonBan_Result> GetAll(int idHDB)
         {
-            return db.getChiTietHoaDonBan(idHDB).ToList();
+            string query = $"getChiTietHoaDonBan {idHDB}";
+            List<getChiTietHoaDonBan_Result> chiTietHoaDonBanResults = new List<getChiTietHoaDonBan_Result>();
+            DataTable table = DBHelper.Query(query, null);
+            getChiTietHoaDonBan_Result ctx = null;
+            foreach (DataRow row in table.Rows)
+            {
+                ctx = new getChiTietHoaDonBan_Result()
+                {
+                    GiaBan = row["GiaBan"] as int?,
+                    ID = row["ID"] as int? ?? 0,
+                    SoLuong = row["SoLuong"] as int? ?? 0,
+                    TenSP = row["TenSP"] as string,
+                    Thành_tiền = row["Thành tiền"] as int? ?? 0
+                };
+                chiTietHoaDonBanResults.Add(ctx);
+            }
+
+            return chiTietHoaDonBanResults;
         }
 
         public ChiTietHDB GetChiTietHDB(int id)
         {
-            return db.ChiTietHDBs.Find(id);
+            string query = $"select * from ChiTietHDB where ID = {id}";
+            DataTable table = DBHelper.Query(query, null);
+            ChiTietHDB ctx = null;
+            foreach (DataRow row in table.Rows)
+            {
+                ctx = new ChiTietHDB()
+                {
+                    GiaBan = row["GiaBan"] as int?,
+                    ID = row["ID"] as int? ?? 0,
+                    MaHD = row["MaHD"] as int? ?? 0,
+                    MaSP = row["MaSP"] as int? ?? 0,
+                    SoLuong = row["SoLuong"] as int?,
+                    ThanhTien = row["ThanhTien"] as int?
+                };
+            }
+
+            return ctx;
         }
     }
 }

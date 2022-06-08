@@ -1,52 +1,72 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+using CuaHangDienThoaiAPI.Utils;
 using QuanLyMyPham.DAL.InterfaceService;
 using QuanLyMyPham.Models;
 
 namespace QuanLyMyPham.DAL
 {
-    public class HoaDonNhapDAL:IHoaDonNhapDAL
+    public class HoaDonNhapDAL : IHoaDonNhapDAL
     {
-        private DBContext db = new DBContext();
-
         public int Add(HoaDonNhap hoaDonNhap)
         {
-            db.HoaDonNhaps.Add(hoaDonNhap);
-            return db.SaveChanges();
+            string query =
+                $"insert into HoaDonNhap(NgayNhap,MaDL) values ('{hoaDonNhap.NgayNhap}',{hoaDonNhap.MaDL})";
+            return DBHelper.NonQuery(query, null);
         }
 
         public int Update(HoaDonNhap hoaDonNhap)
         {
-            var model = db.HoaDonNhaps.Find(hoaDonNhap.MaHD);
-            if (model != null)
-            {
-                model.NgayNhap = hoaDonNhap.NgayNhap;
-                model.MaDL = hoaDonNhap.MaDL;
-                return db.SaveChanges();
-            }
-            return 0;
+            string query =
+                $"update HoaDonNhap set NgayNhap ='{hoaDonNhap.NgayNhap}', MaDL = {hoaDonNhap.MaDL} where MaHD = {hoaDonNhap.MaHD}";
+            return DBHelper.NonQuery(query, null);
         }
 
         public int Delete(int id)
         {
-            var model = db.HoaDonNhaps.Find(id);
-            if (model != null)
-            {
-                db.HoaDonNhaps.Remove(model);
-                db.SaveChanges();
-            }
-
-            return 0;
+            string query = $"delete from HoaDonNhap where MaHD = {id}";
+            return DBHelper.NonQuery(query, null);
         }
 
         public List<GetHoaDonNhap_Result> GetAll()
         {
-            return db.GetHoaDonNhap().ToList();
+            List<GetHoaDonNhap_Result> hoaDonNhapResults = new List<GetHoaDonNhap_Result>();
+            string query = "GetHoaDonNhap";
+            DataTable dataTable = DBHelper.Query(query, null);
+            foreach (DataRow row in dataTable.Rows)
+            {
+                GetHoaDonNhap_Result hoaDonNhapResult = new GetHoaDonNhap_Result()
+                {
+                    MaHD = row["MaHD"] as int? ?? 0,
+                    NgayNhap = row["NgayNhap"] as DateTime? ?? default,
+                    TenDL = row["TenDL"] as string,
+                    Tổng_tiền = row["Tổng tiền"] as int? ?? 0
+                };
+                hoaDonNhapResults.Add(hoaDonNhapResult);
+            }
+
+            return hoaDonNhapResults;
         }
 
         public HoaDonNhap GetHoaDonNhap(int id)
         {
-            return db.HoaDonNhaps.Find(id);
+            HoaDonNhap hoaDonNhap = null;
+            string query = $"select * from HoaDonNhap where MaHD ={id}";
+            DataTable table = DBHelper.Query(query, null);
+            foreach (DataRow row in table.Rows)
+            {
+                hoaDonNhap = new HoaDonNhap()
+                {
+                    MaDL = row["MaDL"] as int?,
+                    MaHD = row["MaHD"] as int? ?? 0,
+                    NgayNhap = row["NgayNhap"] as DateTime? ?? default,
+                    TongTien = row["TongTien"] as int?
+                };
+            }
+
+            return hoaDonNhap;
         }
     }
 }

@@ -1,62 +1,97 @@
 ﻿using QuanLyMyPham.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using CuaHangDienThoaiAPI.Utils;
 using QuanLyMyPham.DAL.InterfaceService;
 
 namespace QuanLyMyPham.DAL
 {
     internal class TaiKhoanDAL : ITaiKhoanDAL
     {
-        private DBContext db = new DBContext();
+       
 
         public int Add(TaiKhoan taiKhoan)
         {
-            db.TaiKhoans.Add(taiKhoan);
-            return db.SaveChanges();
+            String query =
+                $"insert into TaiKhoan values(N'{taiKhoan.TenDangNhap}',N'{taiKhoan.MatKhau}',N'{taiKhoan.LoaiTK}')";
+            return DBHelper.NonQuery(query, null);
         }
 
         public string DangNhap(string TenDangNhap, string MatKhau)
         {
-            var tk = db.TaiKhoans.FirstOrDefault(x => x.TenDangNhap == TenDangNhap && x.MatKhau == MatKhau);
-            if (tk == null)
+            String query = $"select * from TaiKhoan where TenDangNhap = N'{TenDangNhap}' and MatKhau = N'{MatKhau}'";
+            DataTable table = DBHelper.Query(query, null);
+            if (table.Rows.Count < 1)
             {
                 return "";
             }
+            else
+            {
+                TaiKhoan taiKhoan = null;
+                foreach (DataRow row in table.Rows)
+                {
+                    taiKhoan = new TaiKhoan()
+                    {
+                        TenDangNhap = row["TenDangNhap"].ToString(),
+                        MatKhau = row["MatKhau"].ToString(),
+                        LoaiTK = row["LoaiTK"].ToString()
+                    };
+                }
 
-            return tk.LoaiTK;
+                return taiKhoan.LoaiTK;
+            }
         }
 
         public int Delete(string id)
         {
-            var tk = db.TaiKhoans.Find(id);
-            db.TaiKhoans.Remove(tk);
-            return db.SaveChanges();
+            String query = $"delete from TaiKhoan where TenDangNhap =N'{id}'";
+            return DBHelper.NonQuery(query, null);
         }
 
         public List<TaiKhoan> GetAll()
         {
-            return db.TaiKhoans.ToList();
+            List<TaiKhoan> taiKhoans = new List<TaiKhoan>();
+            String query = "select * from TaiKhoan";
+            DataTable dataTable = DBHelper.Query(query, null);
+            foreach (DataRow row in dataTable.Rows)
+            {
+                TaiKhoan taiKhoan = new TaiKhoan()
+                {
+                    TenDangNhap = row["TenDangNhap"].ToString(),
+                    MatKhau = row["MatKhau"].ToString(),
+                    LoaiTK = row["LoaiTK"].ToString()
+                };
+                taiKhoans.Add(taiKhoan);
+            }
+
+            return taiKhoans;
         }
 
         public TaiKhoan GetTaiKhoan(string TenDangNhap)
         {
-            return db.TaiKhoans.Find(TenDangNhap);
+            TaiKhoan taiKhoan = null;
+            String query = $"select * from TaiKhoan where TenDangNhap = N'{TenDangNhap}'";
+            DataTable dataTable = DBHelper.Query(query, null);
+            foreach (DataRow row in dataTable.Rows)
+            {
+                taiKhoan = new TaiKhoan()
+                {
+                    TenDangNhap = row["TenDangNhap"].ToString(),
+                    MatKhau = row["MatKhau"].ToString(),
+                    LoaiTK = row["LoaiTK"].ToString()
+                };
+            }
+
+            return taiKhoan;
         }
 
         public int Update(TaiKhoan taiKhoan)
         {
-            var model = db.TaiKhoans.Find(taiKhoan.TenDangNhap);
-            if (model != null)
-            {
-                model.MatKhau = taiKhoan.MatKhau;
-                model.LoaiTK = taiKhoan.LoaiTK;
-                return db.SaveChanges();
-            }
-
-            return 0;
+            String query =
+                $"update TaiKhoan set TenDangNhap = N'{taiKhoan.TenDangNhap}',MatKhau = N'{taiKhoan.MatKhau}',LoaiTK =N'{taiKhoan.LoaiTK}' where TenDangNhap = N'{taiKhoan.TenDangNhap}'";
+            return DBHelper.NonQuery(query, null);
         }
     }
 }

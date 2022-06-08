@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+using CuaHangDienThoaiAPI.Utils;
 using QuanLyMyPham.DAL.InterfaceService;
 using QuanLyMyPham.Models;
 
@@ -7,47 +9,65 @@ namespace QuanLyMyPham.DAL
 {
     public class NhanVienDAL : INhanVienDAL
     {
-        private DBContext db = new DBContext();
+      
 
         public int Add(NhanVien nhanVien)
         {
-            db.NhanViens.Add(nhanVien);
-            return db.SaveChanges();
+            string query =
+                $"insert into NhanVien(TenNV,DiaChi,SDT) values(N'{nhanVien.TenNV}',N'{nhanVien.DiaChi}','{nhanVien.SDT}')";
+            return DBHelper.NonQuery(query, null);
         }
 
         public int Update(NhanVien nhanVien)
         {
-            var model = db.NhanViens.Find(nhanVien.MaNV);
-            if (model != null)
-            {
-                model.TenNV = nhanVien.TenNV;
-                model.DiaChi = nhanVien.DiaChi;
-                model.SDT = nhanVien.SDT;
-                return db.SaveChanges();
-            }
-            return 0;
+            string query =
+                $"update NhanVien set TenNV = N'{nhanVien.TenNV}',DiaChi = N'{nhanVien.DiaChi}',SDT = N'{nhanVien.SDT}' where MaNV = {nhanVien.MaNV}";
+            return DBHelper.NonQuery(query, null);
         }
 
         public int Delete(int id)
         {
-            var model = db.NhanViens.Find(id);
-            if (model != null)
-            {
-                db.NhanViens.Remove(model);
-                db.SaveChanges();
-            }
-
-            return 0;
+            string query = $"delete from NhanVien where MaNV = {id}";
+            return DBHelper.NonQuery(query, null);
         }
 
         public List<NhanVien> GetAll()
         {
-            return db.NhanViens.ToList();
+            List<NhanVien> nhanVienList = new List<NhanVien>();
+            string query = "select * from NhanVien";
+            DataTable table = DBHelper.Query(query, null);
+            foreach (DataRow row in table.Rows)
+            {
+                NhanVien nhanVien = new NhanVien()
+                {
+                    DiaChi = row["DiaChi"] as string,
+                    MaNV = row["MaNV"] as int? ?? 0,
+                    SDT = row["SDT"] as string,
+                    TenNV = row["TenNV"] as string
+                };
+                nhanVienList.Add(nhanVien);
+            }
+
+            return nhanVienList;
         }
 
         public NhanVien GetNhanVien(int id)
         {
-            return db.NhanViens.Find(id);
+            NhanVien nhanVien = null;
+            string query = $"select * from NhanVien where MaNV = {id}";
+            DataTable table = DBHelper.Query(query, null);
+            foreach (DataRow row in table.Rows)
+            {
+                nhanVien = new NhanVien()
+                {
+                    DiaChi = row["DiaChi"] as string,
+                    MaNV = row["MaNV"] as int? ?? 0,
+                    SDT = row["SDT"] as string,
+                    TenNV = row["TenNV"] as string
+                };
+            }
+
+            return nhanVien;
         }
     }
 }

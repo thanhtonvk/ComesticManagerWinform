@@ -1,51 +1,69 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+using CuaHangDienThoaiAPI.Utils;
 using QuanLyMyPham.DAL.InterfaceService;
 using QuanLyMyPham.Models;
 
 namespace QuanLyMyPham.DAL
 {
-    public class LoaiSanPhamDAL:ILoaiSanPhamDAL
+    public class LoaiSanPhamDAL : ILoaiSanPhamDAL
     {
-        private DBContext db = new DBContext();
+      
 
         public int Add(LoaiSanPham loaiSanPham)
         {
-            db.LoaiSanPhams.Add(loaiSanPham);
-            return db.SaveChanges();
+            string query =
+                $"insert into LoaiSanPham(MaLoai,TenLoai) values({loaiSanPham.MaLoai},N'{loaiSanPham.TenLoai}')";
+            return DBHelper.NonQuery(query, null);
         }
 
         public int Update(LoaiSanPham loaiSanPham)
         {
-            var model = db.LoaiSanPhams.Find(loaiSanPham.MaLoai);
-            if (model != null)
-            {
-                model.TenLoai = loaiSanPham.TenLoai;
-                return db.SaveChanges();
-            }
-            return 0;
+            string query =
+                $"update LoaiSanPham set TenLoai = N'{loaiSanPham.TenLoai}' where MaLoai = {loaiSanPham.MaLoai}";
+            return DBHelper.NonQuery(query, null);
         }
 
         public int Delete(int id)
         {
-            var model = db.LoaiSanPhams.Find(id);
-            if (model != null)
-            {
-                db.LoaiSanPhams.Remove(model);
-                db.SaveChanges();
-            }
-
-            return 0;
+            string query = $"delete from LoaiSanPham where MaLoai = {id}";
+            return DBHelper.NonQuery(query, null);
         }
 
         public List<LoaiSanPham> GetAll()
         {
-            return db.LoaiSanPhams.ToList();
+            string query = "select * from LoaiSanPham";
+            DataTable table = DBHelper.Query(query, null);
+            List<LoaiSanPham> list = new List<LoaiSanPham>();
+            foreach (DataRow row in table.Rows)
+            {
+                LoaiSanPham loaiSanPham = new LoaiSanPham()
+                {
+                    MaLoai = row["MaLoai"] as int? ?? 0,
+                    TenLoai = row["TenLoai"] as string
+                };
+                list.Add(loaiSanPham);
+            }
+
+            return list;
         }
 
         public LoaiSanPham GetLoaiSanPham(int id)
         {
-            return db.LoaiSanPhams.Find(id);
+            string query = $"select * from LoaiSanPham where MaLoai = {id}";
+            DataTable table = DBHelper.Query(query, null);
+            LoaiSanPham loaiSanPham = null;
+            foreach (DataRow row in table.Rows)
+            {
+                loaiSanPham = new LoaiSanPham()
+                {
+                    MaLoai = row["MaLoai"] as int? ?? 0,
+                    TenLoai = row["TenLoai"] as string
+                };
+            }
+
+            return loaiSanPham;
         }
     }
 }
