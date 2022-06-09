@@ -1,5 +1,6 @@
 ﻿using QuanLyMyPham.BLL;
 using QuanLyMyPham.BLL.InterfaceService;
+using QuanLyMyPham.DAL;
 using QuanLyMyPham.Models;
 using QuanLyMyPham.Utils;
 using System;
@@ -34,6 +35,7 @@ namespace QuanLyMyPham.Presentation
             loadDaiLy();
             loadHoaDonNhap();
             loadHoaDonBan();
+            thongKe();
         }
         private void loadSanPham()
         {
@@ -48,7 +50,7 @@ namespace QuanLyMyPham.Presentation
         private void comboBox1_SelectedValueChanged(object sender, EventArgs e)
         {
             ComboBox cb = sender as ComboBox;
-            maloai = cb.SelectedValue.ToString();
+          
 
         }
 
@@ -416,6 +418,16 @@ namespace QuanLyMyPham.Presentation
             this.Hide();
             frm.ShowDialog();
             this.Show();
+        }
+        ThongKeDAL thongKeDAL = new ThongKeDAL();
+        private void thongKe()
+        {
+            dg_banchay.DataSource = thongKeDAL.sanPhamBanChays();
+            dg_theongay.DataSource = thongKeDAL.thongKeTheoNgay();
+            dg_banchay.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            dg_theongay.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dg_banchay.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            dg_theongay.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
     }
 }

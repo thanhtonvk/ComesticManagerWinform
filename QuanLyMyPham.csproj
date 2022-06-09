@@ -91,6 +91,7 @@
     <Compile Include="DAL\NhanVienDAL.cs" />
     <Compile Include="DAL\SanPhamDAL.cs" />
     <Compile Include="DAL\TaiKhoanDAL.cs" />
+    <Compile Include="DAL\ThongKeDAL.cs" />
     <Compile Include="Models\ChiTietHDB.cs">
       <DependentUpon>DBContext.tt</DependentUpon>
     </Compile>
@@ -142,9 +143,11 @@
     <Compile Include="Models\SanPham.cs">
       <DependentUpon>DBContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SanPhamBanChay.cs" />
     <Compile Include="Models\TaiKhoan.cs">
       <DependentUpon>DBContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ThongKeTheoNgay.cs" />
     <Compile Include="Presentation\AdminFrm.cs">
       <SubType>Form</SubType>
     </Compile>

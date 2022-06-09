@@ -108,6 +108,12 @@
             this.textBox8 = new System.Windows.Forms.TextBox();
             this.button12 = new System.Windows.Forms.Button();
             this.dataGridView3 = new System.Windows.Forms.DataGridView();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.dg_theongay = new System.Windows.Forms.DataGridView();
+            this.dg_banchay = new System.Windows.Forms.DataGridView();
+            this.label28 = new System.Windows.Forms.Label();
+            this.label29 = new System.Windows.Forms.Label();
+            this.label30 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView5)).BeginInit();
@@ -119,6 +125,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tabPage5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
+            this.tabPage6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dg_theongay)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dg_banchay)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -128,6 +137,7 @@
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Controls.Add(this.tabPage5);
+            this.tabControl1.Controls.Add(this.tabPage6);
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -901,6 +911,65 @@
             this.dataGridView3.TabIndex = 31;
             this.dataGridView3.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView3_CellClick);
             // 
+            // tabPage6
+            // 
+            this.tabPage6.Controls.Add(this.label30);
+            this.tabPage6.Controls.Add(this.label29);
+            this.tabPage6.Controls.Add(this.label28);
+            this.tabPage6.Controls.Add(this.dg_banchay);
+            this.tabPage6.Controls.Add(this.dg_theongay);
+            this.tabPage6.Location = new System.Drawing.Point(4, 22);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage6.Size = new System.Drawing.Size(1025, 503);
+            this.tabPage6.TabIndex = 5;
+            this.tabPage6.Text = "Thống kê";
+            this.tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // dg_theongay
+            // 
+            this.dg_theongay.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dg_theongay.Location = new System.Drawing.Point(6, 93);
+            this.dg_theongay.Name = "dg_theongay";
+            this.dg_theongay.Size = new System.Drawing.Size(503, 404);
+            this.dg_theongay.TabIndex = 0;
+            // 
+            // dg_banchay
+            // 
+            this.dg_banchay.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dg_banchay.Location = new System.Drawing.Point(536, 93);
+            this.dg_banchay.Name = "dg_banchay";
+            this.dg_banchay.Size = new System.Drawing.Size(483, 404);
+            this.dg_banchay.TabIndex = 1;
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label28.Location = new System.Drawing.Point(444, 14);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(144, 33);
+            this.label28.TabIndex = 2;
+            this.label28.Text = "Thống kê";
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(6, 77);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(107, 13);
+            this.label29.TabIndex = 3;
+            this.label29.Text = "Doanh thu theo ngày";
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Location = new System.Drawing.Point(533, 77);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(107, 13);
+            this.label30.TabIndex = 4;
+            this.label30.Text = "Doanh thu theo ngày";
+            // 
             // NhanVienFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -926,6 +995,10 @@
             this.tabPage5.ResumeLayout(false);
             this.tabPage5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
+            this.tabPage6.ResumeLayout(false);
+            this.tabPage6.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dg_theongay)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dg_banchay)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1012,5 +1085,11 @@
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.ComboBox comboBox3;
+        private System.Windows.Forms.TabPage tabPage6;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.DataGridView dg_banchay;
+        private System.Windows.Forms.DataGridView dg_theongay;
     }
 }

@@ -66,6 +66,8 @@ ID int identity primary key,
     SoLuong   int,
     ThanhTien int
 )
+
+select * from ChiTietHDB
 go
 create table HoaDonNhap
 (
@@ -85,6 +87,26 @@ ID int identity primary key,
     SoLuong   int,
     ThanhTien int
 )
+go
+go
+create proc ThongKeTheoNgay
+as
+begin
+    select NgayBan,Sum(GiaBan*SoLuong)[TongTien] from HoaDonBan,ChiTietHDB where HoaDonBan.MaHD = ChiTietHDB.MaHD group by NgayBan
+end
+go
+create proc ThongKeSPBanChay
+as
+begin
+    select top 5 SanPham.TenSP,SanPham.DonGia,Sum(ChiTietHDB.SoLuong)[SoLuongBan] 
+    from HoaDonBan,ChiTietHDB,SanPham 
+    where HoaDonBan.MaHD = ChiTietHDB.MaHD and SanPham.MaSP = ChiTietHDB.MaSP
+    group by SanPham.TenSP,SanPham.DonGia
+
+end
+
+
+
 go
 create proc GetHoaDonNhap
 as

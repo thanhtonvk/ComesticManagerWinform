@@ -17,7 +17,7 @@ namespace QuanLyMyPham
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new NhanVienFrm());
+            Application.Run(new DangNhapFrm());
         }
     }
 }
