@@ -257,7 +257,7 @@ namespace QuanLyMyPham.Presentation
         private void comboBox2_SelectedValueChanged(object sender, EventArgs e)
         {
             ComboBox cb = sender as ComboBox;
-            madaily = cb.SelectedValue.ToString();
+           
 
         }
 
@@ -363,7 +363,7 @@ namespace QuanLyMyPham.Presentation
         private void comboBox3_SelectedValueChanged(object sender, EventArgs e)
         {
             ComboBox cb = sender as ComboBox;
-            manv = cb.SelectedValue.ToString();
+         
         }
 
         private void button19_Click(object sender, EventArgs e)
