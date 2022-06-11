@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Windows.Forms;
 using CuaHangDienThoaiAPI.Utils;
 using QuanLyMyPham.DAL.InterfaceService;
 using QuanLyMyPham.Models;
@@ -13,14 +14,15 @@ namespace QuanLyMyPham.DAL
         public int Add(HoaDonNhap hoaDonNhap)
         {
             string query =
-                $"insert into HoaDonNhap(NgayNhap,MaDL) values ('{hoaDonNhap.NgayNhap}',{hoaDonNhap.MaDL})";
+                $"insert into HoaDonNhap(NgayNhap,MaDL) values ('{hoaDonNhap.NgayNhap.Value.ToString("yyyy/dd/mm")}',{hoaDonNhap.MaDL})";
+            MessageBox.Show(hoaDonNhap.NgayNhap.Value.ToString("yyyy/dd/mm"));
             return DBHelper.NonQuery(query, null);
         }
 
         public int Update(HoaDonNhap hoaDonNhap)
         {
             string query =
-                $"update HoaDonNhap set NgayNhap ='{hoaDonNhap.NgayNhap}', MaDL = {hoaDonNhap.MaDL} where MaHD = {hoaDonNhap.MaHD}";
+                $"update HoaDonNhap set NgayNhap ='{hoaDonNhap.NgayNhap.Value.ToString("yyyy/dd/mm")}', MaDL = {hoaDonNhap.MaDL} where MaHD = {hoaDonNhap.MaHD}";
             return DBHelper.NonQuery(query, null);
         }
 

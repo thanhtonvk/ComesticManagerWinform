@@ -14,7 +14,7 @@ namespace QuanLyMyPham.DAL
         public int Add(LoaiSanPham loaiSanPham)
         {
             string query =
-                $"insert into LoaiSanPham(MaLoai,TenLoai) values({loaiSanPham.MaLoai},N'{loaiSanPham.TenLoai}')";
+                $"insert into LoaiSanPham(TenLoai) values(N'{loaiSanPham.TenLoai}')";
             return DBHelper.NonQuery(query, null);
         }
 

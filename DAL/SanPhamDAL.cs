@@ -17,14 +17,14 @@ namespace QuanLyMyPham.DAL
         public int Add(SanPham sanPham)
         {
             string query =
-                $"insert into SanPham(TenSP,MaLoai,NgaySX,HanSD,SoLo,DonGia) values(N'{sanPham.TenSP}',{sanPham.MaLoai},'{sanPham.NgaySX}','{sanPham.HanSD}',{sanPham.SoLo},{sanPham.DonGia})";
+                $"insert into SanPham(TenSP,MaLoai,NgaySX,HanSD,SoLo,DonGia) values(N'{sanPham.TenSP}',{sanPham.MaLoai},'{sanPham.NgaySX.Value.ToString("yyyy/dd/mm")}','{sanPham.HanSD.Value.ToString("yyyy/dd/mm")}',{sanPham.SoLo},{sanPham.DonGia})";
             return DBHelper.NonQuery(query, null);
         }
 
         public int Update(SanPham sanPham)
         {
             string query =
-                $"update SanPham set TenSP = N'{sanPham.TenSP}',MaLoai = {sanPham.MaLoai},NgaySX = '{sanPham.NgaySX}',HanSD = '{sanPham.HanSD}',SoLo = '{sanPham.SoLo}',DonGia = '{sanPham.DonGia}' where MaSP ={sanPham.MaSP}";
+                $"update SanPham set TenSP = N'{sanPham.TenSP}',MaLoai = {sanPham.MaLoai},NgaySX = '{sanPham.NgaySX.Value.ToString("yyyy/dd/mm")}',HanSD = '{sanPham.HanSD.Value.ToString("yyyy/dd/mm")}',SoLo = '{sanPham.SoLo}',DonGia = '{sanPham.DonGia}' where MaSP ={sanPham.MaSP}";
             return DBHelper.NonQuery(query, null);
         }
 

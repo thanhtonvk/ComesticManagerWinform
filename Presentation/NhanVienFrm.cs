@@ -21,6 +21,7 @@ namespace QuanLyMyPham.Presentation
         {
             InitializeComponent();
         }
+
         ISanPhamBLL sanPhamBLL = new SanPhamBLL();
         ILoaiSanPhamBLL loaiSanPhamBLL = new LoaiSanPhamBLL();
         IHoaDonNhapBLL hoaDonNhapBLL = new HoaDonNhapBLL();
@@ -28,6 +29,7 @@ namespace QuanLyMyPham.Presentation
         IDaiLyBLL daiLyBLL = new DaiLyBLL();
         DBContext db = new DBContext();
         string maloai = "-1";
+
         private void NhanVienFrm_Load(object sender, EventArgs e)
         {
             loadSanPham();
@@ -37,6 +39,7 @@ namespace QuanLyMyPham.Presentation
             loadHoaDonBan();
             thongKe();
         }
+
         private void loadSanPham()
         {
             dataGridView1.DataSource = sanPhamBLL.GetAll("");
@@ -50,31 +53,32 @@ namespace QuanLyMyPham.Presentation
         private void comboBox1_SelectedValueChanged(object sender, EventArgs e)
         {
             ComboBox cb = sender as ComboBox;
-          
-
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string tensp = textBox2.Text;
-            DateTime ngaysx = dateTimePicker1.Value;
-            DateTime hansd = dateTimePicker2.Value;
-            int solo = int.Parse(textBox5.Text.Trim());
-            int dongia = int.Parse(textBox6.Text);
-            SanPham sanPham = new SanPham()
+            LoaiSanPham loaiSanPham = (LoaiSanPham) comboBox1.SelectedItem;
+            if (loaiSanPham != null)
             {
-                TenSP = tensp,
-                NgaySX = ngaysx,
-                HanSD = hansd,
-                SoLo = solo,
-                DonGia = dongia,
-                MaLoai = int.Parse(maloai.Trim())
-            };
-            string rs = sanPhamBLL.Add(sanPham);
-            MessageBox.Show(rs);
+                string tensp = textBox2.Text;
+                DateTime ngaysx = dateTimePicker1.Value;
+                DateTime hansd = dateTimePicker2.Value;
+                int solo = int.Parse(textBox5.Text.Trim());
+                int dongia = int.Parse(textBox6.Text);
+                SanPham sanPham = new SanPham()
+                {
+                    TenSP = tensp,
+                    NgaySX = ngaysx,
+                    HanSD = hansd,
+                    SoLo = solo,
+                    DonGia = dongia,
+                    MaLoai = loaiSanPham.MaLoai
+                };
+                string rs = sanPhamBLL.Add(sanPham);
+                MessageBox.Show(rs);
 
-            dataGridView1.DataSource = sanPhamBLL.GetAll("");
-
+                dataGridView1.DataSource = sanPhamBLL.GetAll("");
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -129,6 +133,7 @@ namespace QuanLyMyPham.Presentation
                 textBox6.Text = row.Cells[6].Value.ToString();
             }
         }
+
         //loại sản phẩm
         private void loadLoaiSP()
         {
@@ -175,18 +180,16 @@ namespace QuanLyMyPham.Presentation
 
         private void dataGridView2_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-
             foreach (DataGridViewRow row in dataGridView2.SelectedRows)
             {
                 label12.Text = row.Cells[0].Value.ToString();
                 textBox4.Text = row.Cells[1].Value.ToString();
-
             }
         }
+
         //đại lý
         private void loadDaiLy()
         {
-
             dataGridView3.DataSource = daiLyBLL.GetAll("");
             dataGridView3.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dataGridView3.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
@@ -229,7 +232,6 @@ namespace QuanLyMyPham.Presentation
         private void button12_Click(object sender, EventArgs e)
         {
             dataGridView3.DataSource = daiLyBLL.GetAll(textBox8.Text);
-
         }
 
         private void dataGridView3_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -240,10 +242,11 @@ namespace QuanLyMyPham.Presentation
                 textBox3.Text = row.Cells[1].Value.ToString();
                 textBox9.Text = row.Cells[2].Value.ToString();
                 textBox10.Text = row.Cells[3].Value.ToString();
-
             }
         }
+
         string madaily = "-1";
+
         private void loadHoaDonNhap()
         {
             dataGridView4.DataSource = hoaDonNhapBLL.GetAll("");
@@ -257,26 +260,29 @@ namespace QuanLyMyPham.Presentation
         private void comboBox2_SelectedValueChanged(object sender, EventArgs e)
         {
             ComboBox cb = sender as ComboBox;
-           
-
         }
 
         private void button16_Click(object sender, EventArgs e)
         {
-            HoaDonNhap hoaDonNhap = new HoaDonNhap()
+            DaiLy daiLy= comboBox2.SelectedItem as DaiLy;
+            if (daiLy != null)
             {
-                MaDL = int.Parse(madaily),
-                NgayNhap = dateTimePicker4.Value
-            };
-            string rs = hoaDonNhapBLL.Add(hoaDonNhap);
-            MessageBox.Show(rs);
-            loadHoaDonNhap();
-            int lastIndex = db.HoaDonNhaps.ToList().Count-1;
-            Common.MaHDN = db.HoaDonNhaps.ToArray()[lastIndex].MaHD;
-            ChiTietHDNFrm frm = new ChiTietHDNFrm();
-            this.Hide();
-            frm.ShowDialog();
-            this.Show();
+                HoaDonNhap hoaDonNhap = new HoaDonNhap()
+                {
+                    MaDL = int.Parse(madaily),
+                    NgayNhap = dateTimePicker4.Value
+                };
+                string rs = hoaDonNhapBLL.Add(hoaDonNhap);
+                MessageBox.Show(rs);
+                loadHoaDonNhap();
+                int lastIndex = db.HoaDonNhaps.ToList().Count - 1;
+                Common.MaHDN = db.HoaDonNhaps.ToArray()[lastIndex].MaHD;
+                ChiTietHDNFrm frm = new ChiTietHDNFrm();
+                this.Hide();
+                frm.ShowDialog();
+                this.Show();
+            }
+           
         }
 
         private void dataGridView4_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -284,8 +290,8 @@ namespace QuanLyMyPham.Presentation
             foreach (DataGridViewRow row in dataGridView4.SelectedRows)
             {
                 Common.MaHDN = int.Parse(row.Cells[0].Value.ToString());
-               
             }
+
             ChiTietHDNFrm frm = new ChiTietHDNFrm();
             this.Hide();
             frm.ShowDialog();
@@ -298,7 +304,7 @@ namespace QuanLyMyPham.Presentation
             {
                 label18.Text = row.Cells[0].Value.ToString();
                 dateTimePicker4.Text = row.Cells[1].Value.ToString();
-                comboBox2.Text= row.Cells[2].Value.ToString();
+                comboBox2.Text = row.Cells[2].Value.ToString();
             }
         }
 
@@ -311,7 +317,7 @@ namespace QuanLyMyPham.Presentation
         {
             HoaDonNhap hoaDonNhap = new HoaDonNhap()
             {
-                MaHD= int.Parse(label18.Text),
+                MaHD = int.Parse(label18.Text),
                 MaDL = int.Parse(madaily),
                 NgayNhap = dateTimePicker4.Value
             };
@@ -325,9 +331,12 @@ namespace QuanLyMyPham.Presentation
             hoaDonNhapBLL.Delete(int.Parse(label18.Text));
             dataGridView4.DataSource = hoaDonNhapBLL.GetAll("");
         }
+
         INhanVienBLL nhanVienBLL = new NhanVienBLL();
+
         //hóa đơn bán
         string manv = "-1";
+
         private void loadHoaDonBan()
         {
             dataGridView5.DataSource = hoaDonBanBLL.GetAll("");
@@ -357,20 +366,18 @@ namespace QuanLyMyPham.Presentation
             this.Hide();
             frm.ShowDialog();
             this.Show();
-
         }
 
         private void comboBox3_SelectedValueChanged(object sender, EventArgs e)
         {
             ComboBox cb = sender as ComboBox;
-         
         }
 
         private void button19_Click(object sender, EventArgs e)
         {
             HoaDonBan hoaDonBan = new HoaDonBan()
             {
-                MaHD =int.Parse(label27.Text),
+                MaHD = int.Parse(label27.Text),
                 NgayBan = dateTimePicker3.Value,
                 TenKhach = textBox13.Text,
                 SDT = textBox14.Text,
@@ -412,14 +419,16 @@ namespace QuanLyMyPham.Presentation
             foreach (DataGridViewRow row in dataGridView5.SelectedRows)
             {
                 Common.MaHDB = int.Parse(row.Cells[0].Value.ToString());
-               
             }
+
             ChiTietHDBFrm frm = new ChiTietHDBFrm();
             this.Hide();
             frm.ShowDialog();
             this.Show();
         }
+
         ThongKeDAL thongKeDAL = new ThongKeDAL();
+
         private void thongKe()
         {
             dg_banchay.DataSource = thongKeDAL.sanPhamBanChays();

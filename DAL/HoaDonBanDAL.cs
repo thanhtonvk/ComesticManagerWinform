@@ -15,8 +15,8 @@ namespace QuanLyMyPham.DAL
         public int Add(HoaDonBan hoaDonBan)
         {
             string query =
-                $"insert into HoaDonBan(NgayBan,TenKhach,SDT,DiaChi,MaNV) values('{hoaDonBan.NgayBan}',N'{hoaDonBan.TenKhach}','{hoaDonBan.SDT}',N'{hoaDonBan.DiaChi}',{hoaDonBan.MaNV})";
-
+                $"insert into HoaDonBan(NgayBan,TenKhach,SDT,DiaChi,MaNV) values('{hoaDonBan.NgayBan.Value.ToString("yyyy/dd/mm")}',N'{hoaDonBan.TenKhach}','{hoaDonBan.SDT}',N'{hoaDonBan.DiaChi}',{hoaDonBan.MaNV})";
+           
             return DBHelper.NonQuery(query, null);
         }
 
@@ -74,7 +74,7 @@ namespace QuanLyMyPham.DAL
         public int Update(HoaDonBan hoaDonBan)
         {
             string query =
-                $"update HoaDonBan set DiaChi = N'{hoaDonBan.DiaChi}',MaNV = {hoaDonBan.MaNV}, NgayBan = '{hoaDonBan.NgayBan}',SDT = '{hoaDonBan.SDT}',TenKhach = N'{hoaDonBan.TenKhach}'";
+                $"update HoaDonBan set DiaChi = N'{hoaDonBan.DiaChi}',MaNV = {hoaDonBan.MaNV}, NgayBan = '{hoaDonBan.NgayBan.Value.ToString("yyyy/dd/mm")}',SDT = '{hoaDonBan.SDT}',TenKhach = N'{hoaDonBan.TenKhach}'";
             return DBHelper.NonQuery(query, null);
         }
     }
