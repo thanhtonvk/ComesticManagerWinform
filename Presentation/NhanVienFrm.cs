@@ -264,12 +264,12 @@ namespace QuanLyMyPham.Presentation
 
         private void button16_Click(object sender, EventArgs e)
         {
-            DaiLy daiLy= comboBox2.SelectedItem as DaiLy;
+            DaiLy daiLy= (DaiLy)comboBox2.SelectedItem;
             if (daiLy != null)
             {
                 HoaDonNhap hoaDonNhap = new HoaDonNhap()
                 {
-                    MaDL = int.Parse(madaily),
+                    MaDL = daiLy.MaDL,
                     NgayNhap = dateTimePicker4.Value
                 };
                 string rs = hoaDonNhapBLL.Add(hoaDonNhap);

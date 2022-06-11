@@ -24,7 +24,7 @@ namespace QuanLyMyPham.DAL
         public int Update(SanPham sanPham)
         {
             string query =
-                $"update SanPham set TenSP = N'{sanPham.TenSP}',MaLoai = {sanPham.MaLoai},NgaySX = '{sanPham.NgaySX.Value.ToString("yyyy/dd/mm")}',HanSD = '{sanPham.HanSD.Value.ToString("yyyy/dd/mm")}',SoLo = '{sanPham.SoLo}',DonGia = '{sanPham.DonGia}' where MaSP ={sanPham.MaSP}";
+                $"update SanPham set TenSP = N'{sanPham.TenSP}',MaLoai = {sanPham.MaLoai},NgaySX = '{sanPham.NgaySX.Value.ToString("yyyy-M-d")}',HanSD = '{sanPham.HanSD.Value.ToString("yyyy-M-d")}',SoLo = '{sanPham.SoLo}',DonGia = '{sanPham.DonGia}' where MaSP ={sanPham.MaSP}";
             return DBHelper.NonQuery(query, null);
         }
 
