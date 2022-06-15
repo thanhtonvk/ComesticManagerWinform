@@ -27,6 +27,9 @@ namespace QuanLyMyPham.Presentation
             dgv_taikhoan.DataSource = bll.GetAll("");
             dgv_taikhoan.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dgv_taikhoan.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+
+
             dgv_nv.DataSource = nhanVienBLL.GetAll("");
             dgv_nv.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dgv_nv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;

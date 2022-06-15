@@ -48,7 +48,7 @@ namespace QuanLyMyPham.BLL
         {
             int rs = dal.Update(sanPham);
             if (rs > 0) return "Thành công";
-            return "Thất bại"; ;
+            return "Thất bại";
         }
     }
 }

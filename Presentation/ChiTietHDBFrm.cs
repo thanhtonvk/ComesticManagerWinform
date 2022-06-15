@@ -50,6 +50,9 @@ namespace QuanLyMyPham.Presentation
         {
             ComboBox cb = sender as ComboBox;
             masp = cb.SelectedValue.ToString();
+            int index = cb.SelectedIndex;
+            SanPham sp = sanPhamBLL.GetAll("")[index];
+            textBox2.Text = sp.DonGia.ToString();
         }
         int idhd;
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)

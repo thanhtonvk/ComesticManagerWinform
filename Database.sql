@@ -59,7 +59,7 @@ go
 
 create table ChiTietHDB
 (
-ID int identity primary key,
+    ID int identity primary key,
     MaHD      int not null,
     MaSP      int not null,
     GiaBan    int,
@@ -80,7 +80,7 @@ create table HoaDonNhap
 go
 create table ChiTietHDN
 (
-ID int identity primary key,
+    ID int identity primary key,
     MaHD      int not null,
     MaSP      int not null,
     GiaNhap   int,
